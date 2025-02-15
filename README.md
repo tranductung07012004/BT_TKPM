@@ -1,4 +1,4 @@
-1. Chương trình sử dụng ngôn ngữ C++ và giao diện console.
+1. Chương trình sử dụng ngôn ngữ C++ và giao diện console. 
 Khi mới khởi động chương trình
 ![Alt text](Demo/pic1.png)
 Chức năng thêm thông tin sinh viên mới
