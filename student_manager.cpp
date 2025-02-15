@@ -106,13 +106,16 @@ void studentManager::addStudent(const student& s) {
 }
 
 void studentManager::removeStudent(const string& id) {
+  bool deleted = false;
   for (auto it = this->students.begin(); it != this->students.end(); it++) {
     if ((*it)._mssv == id) {
       cout << "Đã xóa sinh viên có mssv là: " << id << '\n';
+      deleted = true;
       break;
     }
   }
-  cout << "Không có sinh viên có mssv là: " << id << "trong danh sách" << '\n';
+  if (deleted == false)
+    cout << "Không có sinh viên có mssv là: " << id << "trong danh sách" << '\n';
 }
 void studentManager::updateStudent(const std::string& id, const student& newInfo) {
   for (auto& student: this->students) {
