@@ -1,0 +1,40 @@
+2025-02-21 19:52:32,152 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-21 19:54:02,653 - INFO - Import dữ liệu từ CSV: input1.csv
+2025-02-21 19:54:34,203 - INFO - Export dữ liệu ra JSON: output1.json
+2025-02-21 19:55:20,842 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-21 19:55:20,842 - INFO - Thoát ứng dụng
+2025-02-21 20:00:15,485 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-21 20:00:25,606 - INFO - Hiển thị version và ngày build
+2025-02-21 20:03:10,198 - INFO - Import dữ liệu từ CSV: input1.csv
+2025-02-21 20:03:10,198 - INFO - Import dữ liệu: 0 thêm, 1 bị trùng.
+2025-02-21 20:03:46,997 - INFO - Import dữ liệu từ CSV: input1.csv
+2025-02-21 20:03:47,018 - INFO - Import dữ liệu: 1 thêm, 0 bị trùng.
+2025-02-21 20:04:01,441 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-21 20:04:01,441 - INFO - Thoát ứng dụng
+2025-02-21 20:04:19,788 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-21 20:04:45,468 - INFO - Export dữ liệu ra JSON: output1.json
+2025-02-21 20:05:30,554 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-21 20:05:30,554 - INFO - Thoát ứng dụng
+2025-02-21 20:20:25,616 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-21 20:20:35,211 - INFO - Export dữ liệu ra JSON: input1.json
+2025-02-21 20:20:37,701 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-21 20:20:37,701 - INFO - Thoát ứng dụng
+2025-02-21 20:26:43,662 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-21 20:28:00,006 - INFO - Thêm sinh viên: MSSV 22451778
+2025-02-21 20:29:55,304 - INFO - Xóa sinh viên: MSSV 22127448
+2025-02-21 20:33:17,905 - INFO - Cập nhật sinh viên: MSSV 22127123
+2025-02-21 20:39:05,501 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-21 20:39:05,501 - INFO - Thoát ứng dụng
+2025-02-21 20:39:13,209 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-21 20:40:41,779 - INFO - Thêm mới vào danh mục Khoa: Khoa tiếng Ý
+2025-02-21 20:41:28,857 - INFO - Thêm mới vào danh mục Khoa: Khoa tiếng Tây Ban Nha
+2025-02-21 20:42:20,311 - INFO - Import dữ liệu từ CSV: input1.csv
+2025-02-21 20:42:20,311 - INFO - Import dữ liệu: 1 thêm, 1 bị trùng.
+2025-02-21 20:43:09,494 - INFO - Export dữ liệu ra JSON: export.json
+2025-02-21 20:44:52,573 - INFO - Hiển thị version và ngày build
+2025-02-21 20:45:47,302 - INFO - Hiển thị version và ngày build
+2025-02-21 20:47:26,724 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-21 20:47:26,724 - INFO - Thoát ứng dụng
+2025-02-21 20:51:47,418 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-21 20:51:49,374 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-21 20:51:49,374 - INFO - Thoát ứng dụng
