@@ -25,10 +25,14 @@ Chức năng xóa sinh viên khỏi danh sách
 
 ## Giới Thiệu
 Chương trình sử dụng python và giao diện console. **Đầy đủ các tính năng trong yêu cầu của Ex1 và Ex2** gồm: 
+
+**Version v1.0**
 1. **Thêm sinh viên mới**: Nhập thông tin của một sinh viên và lưu vào danh sách.
 2. **Xóa sinh viên**: Xóa thông tin sinh viên dựa trên Mã số sinh viên (MSSV).
 3. **Cập nhật thông tin sinh viên**: Cập nhật thông tin của sinh viên dựa trên MSSV.
 4. **Tìm kiếm sinh viên**: Tìm kiếm sinh viên theo họ tên hoặc MSSV.
+
+**Version v2.0**
 
 ✅ **Lưu trữ dữ liệu:**
 
@@ -56,6 +60,21 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
 
 ✅ **Thêm chức năng show version và ngày build ứng dụng**
 
+**Version v3.0:** 
+01. MSSV phải là duy nhất  
+   - Khi thêm hoặc cập nhật sinh viên, không được trùng MSSV với sinh viên khác.  
+
+02. Email phải thuộc một tên miền nhất định và có thể cấu hình động (configurable) 
+   - Ví dụ: Chỉ chấp nhận email có đuôi `@student.university.edu.vn`.  
+
+03. Số điện thoại phải có định dạng hợp lệ theo quốc gia (configurable) 
+   - Ví dụ: Việt Nam (`+84` hoặc `0[3|5|7|8|9]xxxxxxxx`).  		 
+
+04. Tình trạng sinh viên chỉ có thể thay đổi theo một số quy tắc (configurable)
+   - Ví dụ:  
+     - `"Đang học"` → `"Bảo lưu"`, `"Tốt nghiệp"`, `"Đình chỉ"` (hợp lệ).  
+     - `"Đã tốt nghiệp"` không thể quay lại `"Đang học"`.
+
 ## Cấu Trúc Source Code
 - **validators.py**: Chứa các hàm kiểm tra tính hợp lệ của dữ liệu (email, số điện thoại, ngày sinh, v.v.).
 - **student_manager.py**: Chứa toàn bộ logic của chương trình, bao gồm:
@@ -67,6 +86,9 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
 - **app.log**: File ghi log các hành động và lỗi trong quá trình chạy chương trình.
 - **input1.csv**: File dữ liệu csv mẫu để import dữ liệu
 - **input1.json**: File dữ liệu json mẫu để import dữ liệu
+- **allowed_email_domains**: File configurable các domain email hợp lệ
+- **allowed_phone_patterns**: File configurable các số điện thoại hợp lệ
+- **allowed_status_transitions**: File configurable các tình trạng sinh viên hợp lệ
 
 ## Yêu Cầu Cài Đặt
 - **Python 3.12.2**  

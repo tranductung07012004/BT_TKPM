@@ -69,3 +69,15 @@
 2025-02-28 20:55:35,089 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
 2025-02-28 20:55:35,089 - INFO - Thoát ứng dụng
 2025-02-28 20:57:43,512 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 21:15:34,250 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 21:26:10,108 - INFO - Thêm sinh viên: MSSV 123
+2025-02-28 21:26:10,109 - INFO - Xóa sinh viên: MSSV 123
+2025-02-28 21:26:10,112 - INFO - Export dữ liệu ra JSON: C:\Users\ADMIN\AppData\Local\Temp\tmpbrstklmw.json
+2025-02-28 21:26:10,115 - INFO - Import dữ liệu từ CSV: C:\Users\ADMIN\AppData\Local\Temp\tmpa_vbv0_e.csv
+2025-02-28 21:26:10,115 - INFO - Import dữ liệu: 1 thêm, 0 bị trùng.
+2025-02-28 21:26:10,117 - INFO - Import dữ liệu từ JSON: C:\Users\ADMIN\AppData\Local\Temp\tmpds7ygkh7.json
+2025-02-28 21:26:10,117 - INFO - Import dữ liệu: 1 thêm, 0 bị trùng.
+2025-02-28 21:26:10,118 - INFO - Đổi tên danh mục Tình trạng sinh viên: mục 0 thành New Status
+2025-02-28 21:26:10,121 - INFO - Hiển thị version và ngày build
+2025-02-28 21:26:10,123 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đã tốt nghiệp' -> 'Đang học'
+2025-02-28 21:26:10,126 - INFO - Cập nhật tình trạng: MSSV 789 chuyển từ 'Đang học' sang 'Bảo lưu'
