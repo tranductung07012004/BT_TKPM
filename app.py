@@ -16,7 +16,18 @@ BUILD_DATE = "2025-02-21"
 CSV_FILE = 'students.csv'
 
 FACULTIES = ["Khoa Luật", "Khoa Tiếng Anh thương mại", "Khoa Tiếng Nhật", "Khoa Tiếng Pháp"]
-STATUSES = ["Đang học", "Đã tốt nghiệp", "Đã thôi học", "Tạm dừng học"]
+
+def load_student_statuses(filepath="allowed_status_transitions.txt"):
+    statuses = []
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding="utf-8") as f:
+            statuses = [line.strip() for line in f if line.strip()]
+    else:
+        statuses = ["Đang học", "Đã tốt nghiệp", "Đã thôi học", "Tạm dừng học"]
+    return statuses
+
+STATUSES = load_student_statuses()
+
 PROGRAMS = ["đại trà", "chất lượng cao", "tiên tiến", "việt pháp"]
 
 students = []
@@ -58,7 +69,6 @@ def input_validated(prompt, validation_func, error_msg, transform_func=None):
             print(error_msg)
 
 def input_index(prompt, options):
-
     while True:
         print(prompt)
         for idx, option in enumerate(options):
@@ -71,7 +81,6 @@ def input_index(prompt, options):
             print("Chỉ số không hợp lệ. Vui lòng nhập lại.")
 
 def add_student():
-
     global students
     print("\n=== Thêm sinh viên mới ===")
     
@@ -131,7 +140,6 @@ def add_student():
     logging.info(f"Thêm sinh viên: MSSV {mssv}")
 
 def delete_student():
-
     global students
     print("\n=== Xóa sinh viên ===")
     mssv = input("Nhập MSSV của sinh viên cần xóa: ").strip()
@@ -144,7 +152,6 @@ def delete_student():
         logging.info(f"Xóa sinh viên: MSSV {mssv}")
 
 def update_student():
-
     global students
     print("\n=== Cập nhật thông tin sinh viên ===")
     mssv = input("Nhập MSSV của sinh viên cần cập nhật: ").strip()
@@ -213,17 +220,38 @@ def update_student():
             elif field_to_update == 'so_dien_thoai':
                 student['so_dien_thoai'] = input_validated("Nhập số điện thoại mới: ", validate_phone, "Số điện thoại không hợp lệ!")
             elif field_to_update == 'tinh_trang':
-                student['tinh_trang'] = input_index("Chọn tình trạng mới:", STATUSES)
+                new_status = input_index("Chọn tình trạng mới:", STATUSES)
+                current_status = student['tinh_trang']
+                if current_status == "Đang học":
+                    if new_status in ["Bảo lưu", "Đã Tốt nghiệp", "Thôi học"]:
+                        student['tinh_trang'] = new_status
+                        print("Cập nhật tình trạng sinh viên thành công!")
+                        logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
+                    else:
+                        print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ theo quy tắc.")
+                        logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
+                elif current_status.lower() == "đã tốt nghiệp":
+                    if new_status == "Đang học":
+                        print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ.")
+                        logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
+                    else:
+                        student['tinh_trang'] = new_status
+                        print("Cập nhật tình trạng sinh viên thành công!")
+                        logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
+                else:
+                    student['tinh_trang'] = new_status
+                    print("Cập nhật tình trạng sinh viên thành công!")
+                    logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
             
-            print("Cập nhật sinh viên thành công!")
-            logging.info(f"Cập nhật sinh viên: MSSV {mssv}")
+            if field_to_update != 'tinh_trang':
+                print("Cập nhật sinh viên thành công!")
+                logging.info(f"Cập nhật sinh viên: MSSV {mssv} - trường {field_to_update}")
         else:
             print("Lựa chọn không hợp lệ!")
     except ValueError:
         print("Lựa chọn không hợp lệ!")
 
 def search_student():
-
     global students
     print("\n=== Tìm kiếm sinh viên ===")
     print("Tìm kiếm theo:")
@@ -249,7 +277,6 @@ def search_student():
         print("Không tìm thấy sinh viên nào.")
 
 def search_by_faculty():
-
     global students
     print("\n=== Tìm kiếm theo Khoa ===")
     faculty = input_index("Chọn khoa cần tìm:", FACULTIES)
@@ -262,7 +289,6 @@ def search_by_faculty():
         print("Không tìm thấy sinh viên nào trong khoa này.")
 
 def search_by_faculty_and_name():
-
     global students
     print("\n=== Tìm kiếm theo Khoa và Tên sinh viên ===")
     faculty = input_index("Chọn khoa cần tìm:", FACULTIES)
@@ -276,7 +302,6 @@ def search_by_faculty_and_name():
         print("Không tìm thấy sinh viên nào.")
 
 def manage_categories():
-
     while True:
         print("\n=== Quản lý danh mục ===")
         print("1: Quản lý Khoa (Faculty)")
@@ -296,7 +321,6 @@ def manage_categories():
             print("Lựa chọn không hợp lệ!")
 
 def manage_list(name, category_list):
-
     while True:
         print(f"\n--- Quản lý {name} ---")
         print("Danh sách hiện tại:")
@@ -333,7 +357,6 @@ def manage_list(name, category_list):
             print("Lựa chọn không hợp lệ!")
 
 def import_data():
-
     global students
     print("\n=== Import Dữ liệu ===")
     print("Chọn định dạng file để import:")
@@ -375,7 +398,6 @@ def import_data():
         print("Lựa chọn không hợp lệ!")
         return
 
-    # Kiểm tra trùng MSSV và thêm sinh viên vào biến toàn cục nếu không trùng
     count_added = 0
     count_skipped = 0
     for imp_student in imported_students:
@@ -393,9 +415,7 @@ def import_data():
     print(f"Import hoàn thành: {count_added} sinh viên được thêm, {count_skipped} sinh viên bị trùng và không được thêm.")
     logging.info(f"Import dữ liệu: {count_added} thêm, {count_skipped} bị trùng.")
 
-
 def export_data_json():
-
     global students
     print("\n=== Export Dữ liệu ra JSON ===")
     file_path = input("Nhập đường dẫn file JSON để lưu (ví dụ: export.json): ").strip()
@@ -409,7 +429,6 @@ def export_data_json():
         logging.error(f"Lỗi export JSON {file_path}: {e}")
 
 def show_version():
-
     print("\n=== Phiên bản và Ngày Build ===")
     print(f"Version: {VERSION}")
     print(f"Build Date: {BUILD_DATE}")
@@ -421,7 +440,7 @@ def main_menu():
     Khi khởi động, load dữ liệu vào biến toàn cục.
     Khi thoát, lưu dữ liệu vào file CSV.
     """
-    load_students()  # Load dữ liệu sinh viên khi khởi động.
+    load_students() 
     
     while True:
         print("\n===== Quản lý danh sách sinh viên =====")

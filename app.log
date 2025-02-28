@@ -38,3 +38,34 @@
 2025-02-21 20:51:47,418 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
 2025-02-21 20:51:49,374 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
 2025-02-21 20:51:49,374 - INFO - Thoát ứng dụng
+2025-02-28 20:25:12,860 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:25:33,455 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:27:49,165 - INFO - Thêm sinh viên: MSSV 22127001
+2025-02-28 20:29:22,475 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:30:04,853 - INFO - Cập nhật tình trạng: MSSV 22451778 chuyển từ 'Đã tốt nghiệp' sang 'Đang học'
+2025-02-28 20:30:12,570 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-28 20:30:12,570 - INFO - Thoát ứng dụng
+2025-02-28 20:31:56,726 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:32:23,397 - INFO - Cập nhật tình trạng: MSSV 22127123 chuyển từ 'Đã tốt nghiệp' sang 'Đang học'
+2025-02-28 20:32:26,778 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-28 20:32:26,779 - INFO - Thoát ứng dụng
+2025-02-28 20:36:35,179 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:37:05,144 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:37:41,703 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đang học' -> 'Đã tốt nghiệp'
+2025-02-28 20:38:07,123 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:38:26,201 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đang học' -> 'Đã tốt nghiệp'
+2025-02-28 20:46:04,304 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:46:42,750 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đang học' -> 'Đã thôi học'
+2025-02-28 20:48:27,308 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:48:47,870 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đang học' -> 'Đã tốt nghiệp'
+2025-02-28 20:51:54,070 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:52:08,377 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đang học' -> 'Đã thôi học'
+2025-02-28 20:54:18,655 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:54:33,559 - INFO - Cập nhật tình trạng: MSSV 22127123 chuyển từ 'Đang học' sang 'Đã Tốt nghiệp'
+2025-02-28 20:54:37,313 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-28 20:54:37,313 - INFO - Thoát ứng dụng
+2025-02-28 20:54:42,777 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-02-28 20:55:30,386 - INFO - Cập nhật sinh viên: MSSV 22127123 - trường so_dien_thoai
+2025-02-28 20:55:35,089 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-02-28 20:55:35,089 - INFO - Thoát ứng dụng
+2025-02-28 20:57:43,512 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
