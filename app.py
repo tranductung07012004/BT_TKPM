@@ -6,6 +6,7 @@ from datetime import datetime
 from validators import validate_email, validate_phone, validate_date, validate_index, validate_non_empty, validate_gender, validator_transition_states
 import subprocess
 from datetime import datetime
+from datetime import timedelta 
 
 logging.basicConfig(level=logging.INFO,
                     filename="app.log",
@@ -13,6 +14,7 @@ logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s - %(levelname)s - %(message)s")
 
 CSV_FILE = 'students.csv'
+CONFIG_FILE = 'overall_config.txt'
 
 FACULTIES = ["Khoa Luật", "Khoa Tiếng Anh thương mại", "Khoa Tiếng Nhật", "Khoa Tiếng Pháp"]
 
@@ -45,6 +47,27 @@ PROGRAMS = ["đại trà", "chất lượng cao", "tiên tiến", "việt pháp"
 
 students = []
 
+def load_overall_config(filepath=CONFIG_FILE):
+    """
+    Đọc file cấu hình overall_config.txt
+    """
+    config = {}
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and "=" in line:
+                    key, value = line.split("=", 1)
+                    config[key.strip()] = value.strip()
+    else:
+        config['creation_time_limit_for_delete'] = '30'
+        config['school_name'] = 'Trường Đại Học Bách Khoa'
+    config.setdefault('school_address', '123 Đường A, Quận B, TP. HCM')
+    config.setdefault('school_phone', '0123456789')
+    config.setdefault('school_email', 'contact@123.edu.vn')
+    return config
+
+
 def load_students():
     global students
     students = []
@@ -53,6 +76,8 @@ def load_students():
             with open(CSV_FILE, mode='r', encoding='utf-8') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
+                    if 'creation_time' not in row:
+                        row['creation_time'] = ""
                     students.append(row)
             logging.info("Load dữ liệu sinh viên từ file CSV thành công.")
         except Exception as e:
@@ -62,7 +87,7 @@ def save_students():
     global students
     try:
         with open(CSV_FILE, mode='w', encoding='utf-8', newline='') as file:
-            fieldnames = ['mssv', 'ho_ten', 'ngay_sinh', 'gioi_tinh', 'khoa', 'khoa_hoc', 'chuong_trinh', 'dia_chi', 'email', 'so_dien_thoai', 'tinh_trang']
+            fieldnames = ['mssv', 'ho_ten', 'ngay_sinh', 'gioi_tinh', 'khoa', 'khoa_hoc', 'chuong_trinh', 'dia_chi', 'email', 'so_dien_thoai', 'tinh_trang', 'creation_time']
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             for student in students:
@@ -133,7 +158,8 @@ def add_student():
     so_dien_thoai = input_validated("Nhập số điện thoại: ", validate_phone, "Số điện thoại không hợp lệ. Vui lòng nhập lại!")
     
     tinh_trang = input_index("Chọn tình trạng sinh viên:", STATUSES)
-    
+
+    creation_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     student = {
         'mssv': mssv,
         'ho_ten': ho_ten,
@@ -145,7 +171,8 @@ def add_student():
         'dia_chi': dia_chi,
         'email': email,
         'so_dien_thoai': so_dien_thoai,
-        'tinh_trang': tinh_trang
+        'tinh_trang': tinh_trang,
+        'creation_time': creation_time
     }
     
     students.append(student)
@@ -156,13 +183,33 @@ def delete_student():
     global students
     print("\n=== Xóa sinh viên ===")
     mssv = input("Nhập MSSV của sinh viên cần xóa: ").strip()
-    new_students = [s for s in students if s['mssv'] != mssv]
-    if len(new_students) == len(students):
+    found = False
+    for i, student in enumerate(students):
+        if student['mssv'] == mssv:
+            found = True
+            if student.get('creation_time'):
+                try:
+                    creation_dt = datetime.strptime(student['creation_time'], "%Y-%m-%d %H:%M:%S")
+                except ValueError:
+                    print("Dữ liệu thời gian tạo không hợp lệ, không thể xóa.")
+                    logging.error(f"Thời gian tạo của sinh viên {mssv} không hợp lệ.")
+                    return
+                now = datetime.now()
+                diff_minutes = (now - creation_dt).total_seconds() / 60
+                config = load_overall_config()
+                limit_minutes = float(config.get('creation_time_limit_for_delete', 30))
+                if diff_minutes <= limit_minutes:
+                    students.pop(i)
+                    print("Xóa sinh viên thành công!")
+                    logging.info(f"Xóa sinh viên: MSSV {mssv}")
+                else:
+                    print(f"Không thể xóa sinh viên. Thời gian tạo đã vượt quá giới hạn cho phép ({limit_minutes} phút).")
+                    logging.info(f"Không xóa sinh viên {mssv}: đã vượt quá giới hạn {limit_minutes} phút (chênh lệch {diff_minutes:.2f} phút).")
+            else:
+                print("Không có thông tin thời gian tạo, không thể kiểm tra điều kiện xóa.")
+            break
+    if not found:
         print("Không tìm thấy sinh viên với MSSV đã nhập.")
-    else:
-        students[:] = new_students
-        print("Xóa sinh viên thành công!")
-        logging.info(f"Xóa sinh viên: MSSV {mssv}")
 
 def update_student():
     global students
@@ -404,6 +451,8 @@ def import_data():
                 duplicate = True
                 break
         if not duplicate:
+            if 'creation_time' not in imp_student or not imp_student['creation_time']:
+                imp_student['creation_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             students.append(imp_student)
             count_added += 1
         else:
@@ -453,6 +502,192 @@ def show_version():
     print(f"Ngày build gần nhất: {build_date}")
     logging.info("Hiển thị version và ngày build")
 
+def export_status_confirmation():
+    """
+    Xuất giấy xác nhận tình trạng sinh viên ra HTML hoặc Markdown.
+    Nội dung bao gồm phần header chứa thông tin trường (tên, địa chỉ, điện thoại, email)
+    và phần nội dung xác nhận với các thông tin sinh viên, mục đích xác nhận (chọn từ 4 mục)
+    và thời gian cấp giấy (ngày hiện tại và hiệu lực đến 30 ngày sau).
+    """
+    print("\n=== Xuất giấy xác nhận tình trạng sinh viên ===")
+    mssv = input("Nhập MSSV của sinh viên cần xuất giấy xác nhận: ").strip()
+    student = None
+    for s in students:
+        if s['mssv'] == mssv:
+            student = s
+            break
+    if student is None:
+        print("Không tìm thấy sinh viên với MSSV đã nhập.")
+        return
+
+    # Yêu cầu chọn mục đích xác nhận
+    print("Chọn mục đích xác nhận:")
+    print("0: Xác nhận đang học để vay vốn ngân hàng")
+    print("1: Xác nhận làm thủ tục tạm hoãn nghĩa vụ quân sự")
+    print("2: Xác nhận làm hồ sơ xin việc / thực tập")
+    print("3: Xác nhận lý do khác")
+    option = input("Chọn (0-3): ").strip()
+    if option == "3":
+        purpose = "Xác nhận lý do khác: " + input("Nhập lý do xác nhận: ")
+    elif option == "0":
+        purpose = "Xác nhận đang học để vay vốn ngân hàng"
+    elif option == "1":
+        purpose = "Xác nhận làm thủ tục tạm hoãn nghĩa vụ quân sự"
+    elif option == "2":
+        purpose = "Xác nhận làm hồ sơ xin việc / thực tập"
+    else:
+        print("Lựa chọn không hợp lệ, sử dụng mặc định: Xác nhận đang học để vay vốn ngân hàng")
+        purpose = "Xác nhận đang học để vay vốn ngân hàng"
+
+    # Tính toán ngày cấp và hiệu lực (30 ngày kể từ hôm nay)
+    issue_date = datetime.now().strftime('%d/%m/%Y')
+    effective_date = (datetime.now() + timedelta(days=30)).strftime('%d/%m/%Y')
+
+    # Đọc thông tin trường từ file cấu hình
+    config = load_overall_config()
+    school_name = config.get('school_name', 'Trường Đại Học Demo')
+    school_address = config.get('school_address', '123 Đường ABC, Quận XYZ, TP. HCM')
+    school_phone = config.get('school_phone', '0123456789')
+    school_email = config.get('school_email', 'contact@demo.edu.vn')
+
+    # Chuẩn bị nội dung header và nội dung xác nhận chung
+    header_text = (
+        f"TRƯỜNG ĐẠI HỌC {school_name}\n"
+        f"PHÒNG ĐÀO TẠO\n"
+        f"📍 Địa chỉ: {school_address}\n"
+        f"📞 Điện thoại: {school_phone} | 📧 Email: {school_email}"
+    )
+
+    student_info = (
+        f"Họ và tên: {student['ho_ten']}\n"
+        f"Mã số sinh viên: {student['mssv']}\n"
+        f"Ngày sinh: {student['ngay_sinh']}\n"
+        f"Giới tính: {student['gioi_tinh']}\n"
+        f"Khoa: {student['khoa']}\n"
+        f"Chương trình đào tạo: {student['chuong_trinh']}\n"
+        f"Khóa: K{student['khoa_hoc']} - Năm nhập học"
+    )
+
+    content_text = (
+        f"GIẤY XÁC NHẬN TÌNH TRẠNG SINH VIÊN\n"
+        f"Trường Đại học {school_name} xác nhận:\n\n"
+        f"1. Thông tin sinh viên:\n\n"
+        f"{student_info}\n\n"
+        f"2. Tình trạng sinh viên hiện tại:\n\n"
+        f"{student['tinh_trang']}\n\n"
+        f"3. Mục đích xác nhận:\n\n"
+        f"{purpose}\n\n"
+        f"4. Thời gian cấp giấy:\n\n"
+        f"Giấy xác nhận có hiệu lực đến ngày: {effective_date} (1 tháng)\n"
+        f"📍 Xác nhận của Trường Đại học {school_name}\n\n"
+        f"📅 Ngày cấp: {issue_date}\n\n"
+        f"🖋 Trưởng Phòng Đào Tạo\n"
+        f"(Ký, ghi rõ họ tên, đóng dấu)"
+    )
+
+    # Yêu cầu chọn định dạng xuất file
+    print("Chọn định dạng xuất:")
+    print("1: HTML")
+    print("2: Markdown")
+    choice = input("Chọn (1 hoặc 2): ").strip()
+    output_path = input("Nhập đường dẫn file xuất (ví dụ: confirmation.html hoặc confirmation.md): ").strip()
+
+    try:
+        if choice == '1':
+            # Xuất ra HTML với style cải tiến
+            html_content = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Giấy Xác Nhận Tình Trạng Sinh Viên</title>
+    <style>
+        body {{
+            background-color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }}
+        .container {{
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }}
+        .header, .content {{
+            text-align: center;
+            margin-bottom: 20px;
+        }}
+        hr {{
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 20px 0;
+        }}
+        pre {{
+            text-align: left;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <pre>{header_text}</pre>
+        </div>
+        <hr>
+        <div class="content">
+            <pre>{content_text}</pre>
+        </div>
+    </div>
+</body>
+</html>"""
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(html_content)
+            print("Xuất giấy xác nhận ra file HTML thành công.")
+            logging.info(f"Xuất giấy xác nhận ra HTML: {output_path}")
+        elif choice == '2':
+            md_content = (
+                f"# TRƯỜNG ĐẠI HỌC {school_name}\n"
+                f"**PHÒNG ĐÀO TẠO**\n\n"
+                f"**📍 Địa chỉ:** {school_address}\n"
+                f"**📞 Điện thoại:** {school_phone} | **📧 Email:** {school_email}\n\n"
+                f"---\n\n"
+                f"# GIẤY XÁC NHẬN TÌNH TRẠNG SINH VIÊN\n\n"
+                f"Trường Đại học {school_name} xác nhận:\n\n"
+                f"### 1. Thông tin sinh viên:\n\n"
+                f"- Họ và tên: {student['ho_ten']}\n"
+                f"- Mã số sinh viên: {student['mssv']}\n"
+                f"- Ngày sinh: {student['ngay_sinh']}\n"
+                f"- Giới tính: {student['gioi_tinh']}\n"
+                f"- Khoa: {student['khoa']}\n"
+                f"- Chương trình đào tạo: {student['chuong_trinh']}\n"
+                f"- Khóa: K{student['khoa_hoc']} - Năm nhập học\n\n"
+                f"### 2. Tình trạng sinh viên hiện tại:\n\n"
+                f"{student['tinh_trang']}\n\n"
+                f"### 3. Mục đích xác nhận:\n\n"
+                f"{purpose}\n\n"
+                f"### 4. Thời gian cấp giấy:\n\n"
+                f"- Giấy xác nhận có hiệu lực đến ngày: {effective_date} (1 tháng)\n"
+                f"- 📍 Xác nhận của Trường Đại học {school_name}\n"
+                f"- 📅 Ngày cấp: {issue_date}\n\n"
+                f"🖋 **Trưởng Phòng Đào Tạo**\n"
+                f"(Ký, ghi rõ họ tên, đóng dấu)"
+            )
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(md_content)
+            print("Xuất giấy xác nhận ra file Markdown thành công.")
+            logging.info(f"Xuất giấy xác nhận ra Markdown: {output_path}")
+        else:
+            print("Lựa chọn không hợp lệ!")
+    except Exception as e:
+        print(f"Lỗi khi xuất giấy xác nhận: {e}")
+        logging.error(f"Lỗi khi xuất giấy xác nhận: {e}")
+
+
+
 def main_menu():
     """
     Menu chính của chương trình.
@@ -460,7 +695,11 @@ def main_menu():
     Khi thoát, lưu dữ liệu vào file CSV.
     """
     save_build_time()
-    load_students() 
+    load_students()
+    config = load_overall_config()
+    school_name = config.get('school_name', 'Trường Đại Học Bách Khoa')
+    
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     
     while True:
         print("\n===== Quản lý danh sách sinh viên =====")
@@ -474,9 +713,10 @@ def main_menu():
         print("8: Import dữ liệu (CSV/JSON)")
         print("9: Export dữ liệu ra JSON")
         print("10: Hiển thị version và ngày build")
-        print("11: Thoát")
+        print("11: Xuất giấy xác nhận tình trạng sinh viên (HTML/Markdown)")
+        print("12: Thoát")
         
-        choice = input("Chọn chức năng (1-11): ").strip()
+        choice = input("Chọn chức năng (1-12): ").strip()
         
         if choice == '1':
             add_student()
@@ -499,6 +739,8 @@ def main_menu():
         elif choice == '10':
             show_version()
         elif choice == '11':
+            export_status_confirmation()
+        elif choice == '12':
             save_students()
             print("Kết thúc chương trình và lưu dữ liệu.")
             logging.info("Thoát ứng dụng")

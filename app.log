@@ -112,3 +112,19 @@
 2025-03-14 01:43:00,237 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đã Tốt nghiệp' -> 'Đã Thôi học'
 2025-03-14 01:43:03,834 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
 2025-03-14 01:43:03,834 - INFO - Thoát ứng dụng
+2025-03-14 02:16:23,876 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:16:56,471 - INFO - Xuất giấy xác nhận ra HTML: 22127123
+2025-03-14 02:17:33,325 - INFO - Xuất giấy xác nhận ra HTML: 22127123.html
+2025-03-14 02:29:44,302 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 02:29:44,302 - INFO - Thoát ứng dụng
+2025-03-14 02:29:46,259 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:30:14,748 - INFO - Xuất giấy xác nhận ra HTML: 22127123.html
+2025-03-14 02:31:56,549 - INFO - Xuất giấy xác nhận ra Markdown: 22127123.md
+2025-03-14 02:34:12,756 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 02:34:12,756 - INFO - Thoát ứng dụng
+2025-03-14 02:35:05,493 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:35:19,841 - INFO - Xuất giấy xác nhận ra HTML: 22127123.html
+2025-03-14 02:37:33,087 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 02:37:33,087 - INFO - Thoát ứng dụng
+2025-03-14 02:37:34,057 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:37:44,452 - INFO - Xuất giấy xác nhận ra HTML: 22127123.html

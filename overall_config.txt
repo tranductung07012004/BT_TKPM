@@ -1,0 +1,2 @@
+creation_time_limit_for_delete=30
+school_name=Trường Đại Học Khoa Học Tự Nhiên
