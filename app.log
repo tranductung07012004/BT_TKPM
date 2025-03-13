@@ -81,3 +81,5 @@
 2025-02-28 21:26:10,121 - INFO - Hiển thị version và ngày build
 2025-02-28 21:26:10,123 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đã tốt nghiệp' -> 'Đang học'
 2025-02-28 21:26:10,126 - INFO - Cập nhật tình trạng: MSSV 789 chuyển từ 'Đang học' sang 'Bảo lưu'
+2025-03-13 23:46:53,752 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-13 23:56:04,481 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đã Tốt nghiệp' -> 'Đang học'

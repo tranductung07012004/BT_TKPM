@@ -223,21 +223,20 @@ def update_student():
                 new_status = input_index("Chọn tình trạng mới:", STATUSES)
                 current_status = student['tinh_trang']
                 if current_status == "Đang học":
-                    if new_status in ["Bảo lưu", "Đã Tốt nghiệp", "Thôi học"]:
+                    student['tinh_trang'] = new_status
+                    print("Cập nhật tình trạng sinh viên thành công!")
+                    logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
+                elif current_status == "Đã Tốt nghiệp" or current_status == "Đã Thôi học":
+                    print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ.")
+                    logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
+                elif current_status == "Bảo lưu":
+                    if new_status in ["Đang học", "Đã Thôi học"]:
                         student['tinh_trang'] = new_status
                         print("Cập nhật tình trạng sinh viên thành công!")
                         logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
                     else:
-                        print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ theo quy tắc.")
-                        logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
-                elif current_status.lower() == "đã tốt nghiệp":
-                    if new_status == "Đang học":
                         print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ.")
                         logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
-                    else:
-                        student['tinh_trang'] = new_status
-                        print("Cập nhật tình trạng sinh viên thành công!")
-                        logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
                 else:
                     student['tinh_trang'] = new_status
                     print("Cập nhật tình trạng sinh viên thành công!")
