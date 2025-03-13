@@ -83,3 +83,32 @@
 2025-02-28 21:26:10,126 - INFO - Cập nhật tình trạng: MSSV 789 chuyển từ 'Đang học' sang 'Bảo lưu'
 2025-03-13 23:46:53,752 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
 2025-03-13 23:56:04,481 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đã Tốt nghiệp' -> 'Đang học'
+2025-03-14 00:16:39,768 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 00:29:25,507 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 00:29:30,504 - INFO - Hiển thị version và ngày build
+2025-03-14 00:29:52,130 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 00:29:52,130 - INFO - Thoát ứng dụng
+2025-03-14 00:29:57,901 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 00:30:00,529 - INFO - Hiển thị version và ngày build
+2025-03-14 00:30:31,919 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 00:30:31,919 - INFO - Thoát ứng dụng
+2025-03-14 00:30:33,127 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 00:30:34,829 - INFO - Hiển thị version và ngày build
+2025-03-14 00:30:37,854 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 00:30:37,854 - INFO - Thoát ứng dụng
+2025-03-14 00:32:21,893 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 00:33:57,946 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 00:33:57,950 - INFO - Thoát ứng dụng
+2025-03-14 01:37:59,071 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 01:38:24,059 - INFO - Cập nhật tình trạng: MSSV 22127123 chuyển từ 'Đã Tốt nghiệp' sang 'Đang học'
+2025-03-14 01:38:56,516 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 01:38:56,516 - INFO - Thoát ứng dụng
+2025-03-14 01:41:25,777 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 01:41:59,494 - INFO - Cập nhật tình trạng: MSSV 22127123 chuyển từ 'Đang học' sang 'Đã Tốt nghiệp'
+2025-03-14 01:42:03,818 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 01:42:03,818 - INFO - Thoát ứng dụng
+2025-03-14 01:42:08,454 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 01:42:34,926 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đã Tốt nghiệp' -> 'Đang học'
+2025-03-14 01:43:00,237 - ERROR - Thay đổi trạng thái không hợp lệ: 'Đã Tốt nghiệp' -> 'Đã Thôi học'
+2025-03-14 01:43:03,834 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 01:43:03,834 - INFO - Thoát ứng dụng

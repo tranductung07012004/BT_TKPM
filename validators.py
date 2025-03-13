@@ -85,3 +85,6 @@ def validate_gender(gender):
     if gender.lower() in ['nam', 'nữ', 'nu']:
         return True
     return False
+
+def validator_transition_states(from_status, to_status, rules):
+    return to_status not in rules.get(from_status, set())

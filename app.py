@@ -3,15 +3,14 @@ import os
 import json
 import logging
 from datetime import datetime
-from validators import validate_email, validate_phone, validate_date, validate_index, validate_non_empty, validate_gender
+from validators import validate_email, validate_phone, validate_date, validate_index, validate_non_empty, validate_gender, validator_transition_states
+import subprocess
+from datetime import datetime
 
 logging.basicConfig(level=logging.INFO,
                     filename="app.log",
                     filemode="a",
                     format="%(asctime)s - %(levelname)s - %(message)s")
-
-VERSION = "2.0.0"
-BUILD_DATE = "2025-02-21"
 
 CSV_FILE = 'students.csv'
 
@@ -19,14 +18,28 @@ FACULTIES = ["Khoa Luật", "Khoa Tiếng Anh thương mại", "Khoa Tiếng Nh�
 
 def load_student_statuses(filepath="allowed_status_transitions.txt"):
     statuses = []
+    rules = {}
+
     if os.path.exists(filepath):
         with open(filepath, "r", encoding="utf-8") as f:
-            statuses = [line.strip() for line in f if line.strip()]
-    else:
-        statuses = ["Đang học", "Đã tốt nghiệp", "Đã thôi học", "Tạm dừng học"]
-    return statuses
+            lines = [line.strip() for line in f if line.strip()]
 
-STATUSES = load_student_statuses()
+        N = int(lines[0])
+        statuses = lines[1:N+1]
+
+        M = int(lines[N+1])
+        rule_lines = lines[N+2:N+2+M]
+
+        for rule in rule_lines:
+            left, right = rule.split(" != ")
+            rules[left.strip()] = {s.strip() for s in right.split(",") if s.strip()}
+    else:
+        statuses = ["Đang học", "Đã Tốt nghiệp", "Đã Thôi học", "Bảo lưu"]
+        rules = {}
+
+    return statuses, rules
+
+STATUSES, RULES = load_student_statuses()
 
 PROGRAMS = ["đại trà", "chất lượng cao", "tiên tiến", "việt pháp"]
 
@@ -222,29 +235,14 @@ def update_student():
             elif field_to_update == 'tinh_trang':
                 new_status = input_index("Chọn tình trạng mới:", STATUSES)
                 current_status = student['tinh_trang']
-                if current_status == "Đang học":
+                if (validator_transition_states(current_status, new_status, RULES)):
+                    
                     student['tinh_trang'] = new_status
                     print("Cập nhật tình trạng sinh viên thành công!")
                     logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
-                elif current_status == "Đã Tốt nghiệp" or current_status == "Đã Thôi học":
+                else:
                     print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ.")
                     logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
-                elif current_status == "Bảo lưu":
-                    if new_status in ["Đang học", "Đã Thôi học"]:
-                        student['tinh_trang'] = new_status
-                        print("Cập nhật tình trạng sinh viên thành công!")
-                        logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
-                    else:
-                        print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ.")
-                        logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
-                else:
-                    student['tinh_trang'] = new_status
-                    print("Cập nhật tình trạng sinh viên thành công!")
-                    logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
-            
-            if field_to_update != 'tinh_trang':
-                print("Cập nhật sinh viên thành công!")
-                logging.info(f"Cập nhật sinh viên: MSSV {mssv} - trường {field_to_update}")
         else:
             print("Lựa chọn không hợp lệ!")
     except ValueError:
@@ -427,10 +425,32 @@ def export_data_json():
         print(f"Lỗi khi export dữ liệu: {e}")
         logging.error(f"Lỗi export JSON {file_path}: {e}")
 
+
+def get_git_version():
+    try:
+        version = subprocess.check_output(["git", "describe", "--tags"], stderr=subprocess.DEVNULL).strip().decode()
+        return version
+    except subprocess.CalledProcessError:
+        return "unknown"
+    
+def save_build_time():
+    build_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("build_info.txt", "w") as f:
+        f.write(f"{build_time}\n")
+
+def read_build_info():
+    try:
+        with open("build_info.txt", "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "No build info available"
+    
 def show_version():
     print("\n=== Phiên bản và Ngày Build ===")
-    print(f"Version: {VERSION}")
-    print(f"Build Date: {BUILD_DATE}")
+    version = get_git_version()
+    build_date = read_build_info()
+    print(f"Version Hiện tại: {version}")    
+    print(f"Ngày build gần nhất: {build_date}")
     logging.info("Hiển thị version và ngày build")
 
 def main_menu():
@@ -439,6 +459,7 @@ def main_menu():
     Khi khởi động, load dữ liệu vào biến toàn cục.
     Khi thoát, lưu dữ liệu vào file CSV.
     """
+    save_build_time()
     load_students() 
     
     while True:
