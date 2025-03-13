@@ -1,8 +1,9 @@
-4
+5
 Đang học
 Bảo lưu
 Đã Tốt nghiệp
 Đã Thôi học
+Học Nâng Cao
 3
 Bảo Lưu != Đã tốt nghiệp
 Đã Tốt nghiệp != Đang học, Bảo Lưu, Đã Thôi học

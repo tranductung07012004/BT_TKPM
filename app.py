@@ -5,7 +5,6 @@ import logging
 from datetime import datetime
 from validators import validate_email, validate_phone, validate_date, validate_index, validate_non_empty, validate_gender, validator_transition_states
 import subprocess
-from datetime import datetime
 from datetime import timedelta 
 
 logging.basicConfig(level=logging.INFO,
@@ -13,10 +12,22 @@ logging.basicConfig(level=logging.INFO,
                     filemode="a",
                     format="%(asctime)s - %(levelname)s - %(message)s")
 
+def load_list_from_file(filepath):
+    """
+    Đọc file txt và trả về danh sách các dòng không rỗng.
+    """
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding="utf-8") as f:
+            return [line.strip() for line in f if line.strip()]
+    else:
+        return []
+    
 CSV_FILE = 'students.csv'
 CONFIG_FILE = 'overall_config.txt'
 
-FACULTIES = ["Khoa Luật", "Khoa Tiếng Anh thương mại", "Khoa Tiếng Nhật", "Khoa Tiếng Pháp"]
+FACULTIES = load_list_from_file("allowed_faculties.txt")
+
+PROGRAMS = load_list_from_file("allowed_programs.txt")
 
 def load_student_statuses(filepath="allowed_status_transitions.txt"):
     statuses = []
@@ -43,7 +54,7 @@ def load_student_statuses(filepath="allowed_status_transitions.txt"):
 
 STATUSES, RULES = load_student_statuses()
 
-PROGRAMS = ["đại trà", "chất lượng cao", "tiên tiến", "việt pháp"]
+
 
 students = []
 
@@ -83,18 +94,53 @@ def load_students():
         except Exception as e:
             logging.error(f"Lỗi khi load dữ liệu từ CSV: {e}")
 
-def save_students():
-    global students
+def save_all(): 
+    global students, PROGRAMS, FACULTIES, STATUSES
+
     try:
         with open(CSV_FILE, mode='w', encoding='utf-8', newline='') as file:
-            fieldnames = ['mssv', 'ho_ten', 'ngay_sinh', 'gioi_tinh', 'khoa', 'khoa_hoc', 'chuong_trinh', 'dia_chi', 'email', 'so_dien_thoai', 'tinh_trang', 'creation_time']
+            fieldnames = ['mssv', 'ho_ten', 'ngay_sinh', 'gioi_tinh', 'khoa', 'khoa_hoc', 'chuong_trinh', 
+                          'dia_chi', 'email', 'so_dien_thoai', 'tinh_trang', 'creation_time']
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             for student in students:
                 writer.writerow(student)
         logging.info("Lưu dữ liệu sinh viên vào file CSV thành công.")
+
+        with open("allowed_programs.txt", mode='w', encoding='utf-8') as file:
+            for program in PROGRAMS:
+                file.write(f"{program}\n")
+        logging.info("Lưu danh sách chương trình đào tạo vào allowed_programs.txt thành công.")
+
+        with open("allowed_faculties.txt", mode='w', encoding='utf-8') as file:
+            for faculty in FACULTIES:
+                file.write(f"{faculty}\n")
+        logging.info("Lưu danh sách khoa vào allowed_faculties.txt thành công.")
+
+        with open("allowed_status_transitions.txt", mode='r', encoding='utf-8') as file:
+            lines = file.readlines()
+
+        if lines:
+            try:
+                n = int(lines[0].strip())
+                m_index = n + 1 
+                m = int(lines[m_index].strip())  
+                rules = lines[m_index+1:]  
+            except (ValueError, IndexError):
+                logging.error("Lỗi khi đọc allowed_status_transitions.txt, reset lại file.")
+                n, m, rules = 0, 0, []
+
+        with open("allowed_status_transitions.txt", mode='w', encoding='utf-8') as file:
+            file.write(f"{len(STATUSES)}\n")  
+            for status in STATUSES:
+                file.write(f"{status}\n")  
+            file.write(f"{m}\n") 
+            file.writelines(rules)  
+        logging.info("Lưu danh sách trạng thái sinh viên vào allowed_status_transitions.txt thành công.")
+
     except Exception as e:
-        logging.error(f"Lỗi khi lưu dữ liệu vào CSV: {e}")
+        logging.error(f"Lỗi khi lưu dữ liệu vào file: {e}")
+
 
 def input_validated(prompt, validation_func, error_msg, transform_func=None):
     while True:
@@ -741,7 +787,7 @@ def main_menu():
         elif choice == '11':
             export_status_confirmation()
         elif choice == '12':
-            save_students()
+            save_all()
             print("Kết thúc chương trình và lưu dữ liệu.")
             logging.info("Thoát ứng dụng")
             break

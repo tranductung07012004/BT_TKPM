@@ -128,3 +128,19 @@
 2025-03-14 02:37:33,087 - INFO - Thoát ứng dụng
 2025-03-14 02:37:34,057 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
 2025-03-14 02:37:44,452 - INFO - Xuất giấy xác nhận ra HTML: 22127123.html
+2025-03-14 02:41:23,438 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:41:25,998 - INFO - Hiển thị version và ngày build
+2025-03-14 02:55:37,314 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 02:55:37,314 - INFO - Thoát ứng dụng
+2025-03-14 02:55:41,584 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:56:02,581 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:56:32,354 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 02:58:21,061 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 03:16:26,684 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 03:17:04,002 - INFO - Thêm mới vào danh mục Chương trình đào tạo: Trung Cấp
+2025-03-14 03:17:56,466 - INFO - Thêm mới vào danh mục Tình trạng sinh viên: Học Nâng Cao
+2025-03-14 03:18:49,671 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 03:18:49,671 - INFO - Lưu danh sách chương trình đào tạo vào allowed_programs.txt thành công.
+2025-03-14 03:18:49,671 - INFO - Lưu danh sách khoa vào allowed_faculties.txt thành công.
+2025-03-14 03:18:49,671 - INFO - Lưu danh sách trạng thái sinh viên vào allowed_status_transitions.txt thành công.
+2025-03-14 03:18:49,671 - INFO - Thoát ứng dụng

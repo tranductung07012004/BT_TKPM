@@ -28,16 +28,32 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
 
 **Version v1.0**
 1. **Thêm sinh viên mới**: Nhập thông tin của một sinh viên và lưu vào danh sách.
+   - Chọn mục "Thêm sinh viên".
+   - Nhập đầy đủ thông tin sinh viên (MSSV, Họ tên, Ngày sinh, Giới tính, v.v.), nếu trường thông tin đó không hợp lệ, sẽ cần nhập lại đến hợp lệ.
+   - Sinh viên sẽ được thêm vào danh sách nếu MSSV không bị trùng.
+   - ![Alt text](screenshots/pic1.png)
 2. **Xóa sinh viên**: Xóa thông tin sinh viên dựa trên Mã số sinh viên (MSSV).
+   - Chọn mục "Xóa sinh viên".
+   - Nhập MSSV của sinh viên cần xóa.
+   - Nếu MSSV tồn tại, sinh viên sẽ bị xóa khỏi danh sách.
+   - ![Alt text](screenshots/pic2.png)
 3. **Cập nhật thông tin sinh viên**: Cập nhật thông tin của sinh viên dựa trên MSSV.
+   - Chọn mục "Cập nhật thông tin sinh viên".
+   - Nhập MSSV của sinh viên cần cập nhật.
+   - Nếu sinh viên tồn tại, chọn trường thông tin cần cập nhật và nhập giá trị mới (các giá trị đều được validate).
+   - ![Alt text](screenshots/pic3.png)
 4. **Tìm kiếm sinh viên**: Tìm kiếm sinh viên theo họ tên hoặc MSSV.
+   - Chọn mục "Tìm kiếm sinh viên".
+   - Chọn phương thức tìm kiếm theo MSSV hoặc Họ tên và nhập từ khóa.
+   - Kết quả sẽ được hiển thị ngay trên màn hình.
+   - ![Alt text](screenshots/pic4.png)
 
 **Version v2.0**
 
 ✅ **Lưu trữ dữ liệu:**
 
-- Sử dụng **XML, JSON, CSV, Database**, hoặc hình thức lưu trữ khác (**chọn ít nhất một**).
-
+- Sử dụng **XML, JSON, CSV, Database**, hoặc hình thức lưu trữ khác (**chọn ít nhất một**) => Lưu vào file csv.
+![Alt text](screenshots/pic15.png)
 ✅ **Cho phép đổi tên & thêm mới:**
 
 - **Khoa (Faculty)**
@@ -74,7 +90,18 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
    - Ví dụ:  
      - `"Đang học"` → `"Bảo lưu"`, `"Tốt nghiệp"`, `"Đình chỉ"` (hợp lệ).  
      - `"Đã tốt nghiệp"` không thể quay lại `"Đang học"`.
+   
+**Version v4.0:**
+06. Chỉ được phép xóa sinh viên có creation date/time trong khoảng thời gian nhất định. Ví dụ: 30 phút (configurable) 
 
+07. Cho phép bật / tắt việc áp dụng các quy định 
+
+08. Các màn hình cần hiện logo hoặc tên Trường (ít nhất một) => Tên trường
+
+09. Cho phép xóa khoa, xóa tình trạng sinh viên, xóa chương trình đào tạo nếu không có ràng buộc về dữ liệu 
+
+10. Xuất giấy xác nhận tình trạng sinh viên ra **HTML/MD/PDF/DOCX** (ít nhất 2 định dạng) => là **HTML** và **MD**
+ 
 ## Cấu Trúc Source Code
 - **validators.py**: Chứa các hàm kiểm tra tính hợp lệ của dữ liệu (email, số điện thoại, ngày sinh, v.v.).
 - **student_manager.py**: Chứa toàn bộ logic của chương trình, bao gồm:
@@ -89,15 +116,19 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
 - **allowed_email_domains**: File configurable các domain email hợp lệ
 - **allowed_phone_patterns**: File configurable các số điện thoại hợp lệ
 - **allowed_status_transitions**: File configurable các tình trạng sinh viên hợp lệ
+- **build_info.txt**: chứa thông tin lần build gần nhất của app.
+- **overall_config.txt**: chứa các thông tin cần config của 1 số chức năng
+- **allowed_programs**: Thông tin các chương trình (cử nhân/thạc sĩ/tiến sĩ)
+- **allowed_faculties**: Thông tin các khoa tồn tại.
 
 ## Yêu Cầu Cài Đặt
 - **Python 3.12.2**  
-- Sử dụng các thư viện: `csv`, `json`, `logging`, `os`, `datetime`, `re`  
+- Sử dụng các thư viện: `csv`, `json`, `logging`, `os`, `datetime`, `subprocess`
 
 ## Hướng Dẫn Cài Đặt và Chạy Chương Trình
 
 1. **Download/Clone Source Code**
-   - Tải source code và giải nén vào một thư mục.
+   - Tải source code về và giải nén hoặc dùng git clone.
 
 2. **Chạy Chương Trình**
    - Mở terminal (hoặc CMD) và chuyển đến thư mục chứa file `app.py`.
