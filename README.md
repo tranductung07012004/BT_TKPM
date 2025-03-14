@@ -130,12 +130,17 @@ Thông tin các tình trạng và các quy tắc trong file configurable:
 ![Alt text](screenshots/pic25.png)
 ![Alt text](screenshots/pic26.png)
 07. Cho phép bật / tắt việc áp dụng các quy định 
-
+![Alt text](screenshots/pic35.png)
+![Alt text](screenshots/pic36.png)
+![Alt text](screenshots/pic37.png)
+![Alt text](screenshots/pic34.png)
 08. Các màn hình cần hiện logo hoặc tên Trường (ít nhất một) => Tên trường
 ![Alt text](screenshots/pic27.png)
 
 09. Cho phép xóa khoa, xóa tình trạng sinh viên, xóa chương trình đào tạo nếu không có ràng buộc về dữ liệu 
-
+![Alt text](screenshots/pic32.png)
+![Alt text](screenshots/pic31.png)
+![Alt text](screenshots/pic33.png)
 10. Xuất giấy xác nhận tình trạng sinh viên ra **HTML/MD/PDF/DOCX** (ít nhất 2 định dạng) => là **HTML** và **MD**
 ![Alt text](screenshots/pic28.png)
 File HTML

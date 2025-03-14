@@ -24,7 +24,7 @@ def load_list_from_file(filepath):
     
 CSV_FILE = 'students.csv'
 CONFIG_FILE = 'overall_config.txt'
-
+CONSTRAINT = True
 FACULTIES = load_list_from_file("allowed_faculties.txt")
 
 PROGRAMS = load_list_from_file("allowed_programs.txt")
@@ -147,10 +147,13 @@ def input_validated(prompt, validation_func, error_msg, transform_func=None):
         value = input(prompt)
         if transform_func:
             value = transform_func(value)
-        if validation_func(value):
+        if (CONSTRAINT == False):
             return value
         else:
-            print(error_msg)
+            if validation_func(value):
+                return value
+            else:
+                print(error_msg)
 
 def input_index(prompt, options):
     while True:
@@ -174,9 +177,12 @@ def add_student():
         if not validate_non_empty(mssv):
             print("MSSV không được để trống!")
             continue
-        if any(s['mssv'] == mssv for s in students):
-            print("MSSV đã tồn tại. Vui lòng nhập MSSV khác!")
-        else:
+        if (CONSTRAINT == True):
+            if any(s['mssv'] == mssv for s in students):
+                print("MSSV đã tồn tại. Vui lòng nhập MSSV khác!")
+            else:
+                break
+        else: 
             break
     
     ho_ten = input_validated("Nhập họ tên: ", validate_non_empty, "Họ tên không được để trống!")
@@ -184,10 +190,13 @@ def add_student():
     
     while True:
         gioi_tinh = input("Nhập giới tính (Nam/Nữ): ").strip()
-        if validate_gender(gioi_tinh):
-            break
+        if (CONSTRAINT == True):
+            if validate_gender(gioi_tinh):
+                break
+            else:
+                print("Giới tính không hợp lệ. Vui lòng nhập 'Nam' hoặc 'Nữ'.")
         else:
-            print("Giới tính không hợp lệ. Vui lòng nhập 'Nam' hoặc 'Nữ'.")
+            break
     
     khoa = input_index("Chọn khoa:", FACULTIES)
     
@@ -237,23 +246,28 @@ def delete_student():
         if student['mssv'] == mssv:
             found = True
             if student.get('creation_time'):
-                try:
-                    creation_dt = datetime.strptime(student['creation_time'], "%Y-%m-%d %H:%M:%S")
-                except ValueError:
-                    print("Dữ liệu thời gian tạo không hợp lệ, không thể xóa.")
-                    logging.error(f"Thời gian tạo của sinh viên {mssv} không hợp lệ.")
-                    return
-                now = datetime.now()
-                diff_minutes = (now - creation_dt).total_seconds() / 60
-                config = load_overall_config()
-                limit_minutes = float(config.get('creation_time_limit_for_delete', 30))
-                if diff_minutes <= limit_minutes:
+                if (CONSTRAINT == False):
                     students.pop(i)
                     print("Xóa sinh viên thành công!")
                     logging.info(f"Xóa sinh viên: MSSV {mssv}")
                 else:
-                    print(f"Không thể xóa sinh viên. Thời gian tạo đã vượt quá giới hạn cho phép ({limit_minutes} phút).")
-                    logging.info(f"Không xóa sinh viên {mssv}: đã vượt quá giới hạn {limit_minutes} phút (chênh lệch {diff_minutes:.2f} phút).")
+                    try:
+                        creation_dt = datetime.strptime(student['creation_time'], "%Y-%m-%d %H:%M:%S")
+                    except ValueError:
+                        print("Dữ liệu thời gian tạo không hợp lệ, không thể xóa.")
+                        logging.error(f"Thời gian tạo của sinh viên {mssv} không hợp lệ.")
+                        return
+                    now = datetime.now()
+                    diff_minutes = (now - creation_dt).total_seconds() / 60
+                    config = load_overall_config()
+                    limit_minutes = float(config.get('creation_time_limit_for_delete', 30))
+                    if diff_minutes <= limit_minutes:
+                        students.pop(i)
+                        print("Xóa sinh viên thành công!")
+                        logging.info(f"Xóa sinh viên: MSSV {mssv}")
+                    else:
+                        print(f"Không thể xóa sinh viên. Thời gian tạo đã vượt quá giới hạn cho phép ({limit_minutes} phút).")
+                        logging.info(f"Không xóa sinh viên {mssv}: đã vượt quá giới hạn {limit_minutes} phút (chênh lệch {diff_minutes:.2f} phút).")
             else:
                 print("Không có thông tin thời gian tạo, không thể kiểm tra điều kiện xóa.")
             break
@@ -307,11 +321,15 @@ def update_student():
             elif field_to_update == 'gioi_tinh':
                 while True:
                     new_gender = input("Nhập giới tính mới (Nam/Nữ): ").strip()
-                    if validate_gender(new_gender):
+                    if (CONSTRAINT == True):
+                        if validate_gender(new_gender):
+                            student['gioi_tinh'] = new_gender
+                            break
+                        else:
+                            print("Giới tính không hợp lệ. Vui lòng nhập lại.")
+                    else:
                         student['gioi_tinh'] = new_gender
                         break
-                    else:
-                        print("Giới tính không hợp lệ. Vui lòng nhập lại.")
             elif field_to_update == 'khoa':
                 student['khoa'] = input_index("Chọn khoa mới:", FACULTIES)
             elif field_to_update == 'khoa_hoc':
@@ -333,14 +351,19 @@ def update_student():
             elif field_to_update == 'tinh_trang':
                 new_status = input_index("Chọn tình trạng mới:", STATUSES)
                 current_status = student['tinh_trang']
-                if (validator_transition_states(current_status, new_status, RULES)):
-                    
+                if (CONSTRAINT == True):
+                    if (validator_transition_states(current_status, new_status, RULES)):
+                        
+                        student['tinh_trang'] = new_status
+                        print("Cập nhật tình trạng sinh viên thành công!")
+                        logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
+                    else:
+                        print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ.")
+                        logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
+                else: 
                     student['tinh_trang'] = new_status
                     print("Cập nhật tình trạng sinh viên thành công!")
                     logging.info(f"Cập nhật tình trạng: MSSV {mssv} chuyển từ '{current_status}' sang '{new_status}'")
-                else:
-                    print(f"Chuyển trạng thái từ '{current_status}' sang '{new_status}' không hợp lệ.")
-                    logging.error(f"Thay đổi trạng thái không hợp lệ: '{current_status}' -> '{new_status}'")
         else:
             print("Lựa chọn không hợp lệ!")
     except ValueError:
@@ -428,7 +451,8 @@ def manage_list(name, category_list):
             print(f"{idx}: {item}")
         print("1: Đổi tên mục đã có")
         print("2: Thêm mới mục")
-        print("3: Quay lại")
+        print("3: Xóa mục")
+        print("4: Quay lại")
         choice = input("Chọn chức năng (1-3): ").strip()
         if choice == '1':
             idx_input = input("Nhập chỉ số của mục cần đổi tên: ").strip()
@@ -452,6 +476,41 @@ def manage_list(name, category_list):
             else:
                 print("Tên không được để trống!")
         elif choice == '3':
+            idx_input = input("Nhập chỉ số của mục cần xóa: ").strip()
+            index = validate_index(idx_input, len(category_list))
+            if index is not None:
+                item_to_delete = category_list[index]
+                if (CONSTRAINT == False):
+                    del category_list[index]
+                    print(f"Đã xóa mục '{item_to_delete}' thành công.")
+                    logging.info(f"Xóa danh mục {name}: '{item_to_delete}'")
+                else:
+                    used = False
+                    if "khoa" in name.lower():
+                        for student in students:
+                            if student.get("khoa", "").strip() == item_to_delete:
+                                used = True
+                                break
+                    elif "tình trạng" in name.lower():
+                        for student in students:
+                            if student.get("tinh_trang", "").strip() == item_to_delete:
+                                used = True
+                                break
+                    elif "chương trình" in name.lower():
+                        for student in students:
+                            if student.get("chuong_trinh", "").strip() == item_to_delete:
+                                used = True
+                                break
+                    if used:
+                        print(f"Không thể xóa mục '{item_to_delete}' vì đang có sinh viên sử dụng.")
+                        logging.info(f"Không xóa danh mục {name}: '{item_to_delete}' đang được sử dụng.")
+                    else:
+                        del category_list[index]
+                        print(f"Đã xóa mục '{item_to_delete}' thành công.")
+                        logging.info(f"Xóa danh mục {name}: '{item_to_delete}'")
+            else:
+                print("Chỉ số không hợp lệ!")
+        elif choice == '4':
             break
         else:
             print("Lựa chọn không hợp lệ!")
@@ -746,6 +805,7 @@ def main_menu():
     Khi thoát, lưu dữ liệu vào file CSV.
     """
     global school_name
+    global CONSTRAINT
     save_build_time()
     load_students()
     config = load_overall_config()
@@ -766,9 +826,10 @@ def main_menu():
         print("9: Export dữ liệu ra JSON")
         print("10: Hiển thị version và ngày build")
         print("11: Xuất giấy xác nhận tình trạng sinh viên (HTML/Markdown)")
-        print("12: Thoát")
+        print("12: Bật / tắt các quy định")
+        print("13: Thoát")
         
-        choice = input("Chọn chức năng (1-12): ").strip()
+        choice = input("Chọn chức năng (1-13): ").strip()
         
         if choice == '1':
             add_student()
@@ -793,6 +854,13 @@ def main_menu():
         elif choice == '11':
             export_status_confirmation()
         elif choice == '12':
+            if (CONSTRAINT == False):
+                CONSTRAINT = True
+                print("Bật các quy định thành công\n")
+            elif (CONSTRAINT == True):
+                CONSTRAINT = False
+                print("Tắt các quy định thành công\n")
+        elif choice == '13':
             save_all()
             print("Kết thúc chương trình và lưu dữ liệu.")
             logging.info("Thoát ứng dụng")

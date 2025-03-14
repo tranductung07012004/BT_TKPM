@@ -193,3 +193,35 @@
 2025-03-14 10:33:16,591 - INFO - Lưu danh sách khoa vào allowed_faculties.txt thành công.
 2025-03-14 10:33:16,592 - INFO - Lưu danh sách trạng thái sinh viên vào allowed_status_transitions.txt thành công.
 2025-03-14 10:33:16,593 - INFO - Thoát ứng dụng
+2025-03-14 17:49:45,703 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 17:52:48,182 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 17:53:05,219 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 17:53:05,219 - INFO - Lưu danh sách chương trình đào tạo vào allowed_programs.txt thành công.
+2025-03-14 17:53:05,219 - INFO - Lưu danh sách khoa vào allowed_faculties.txt thành công.
+2025-03-14 17:53:05,219 - INFO - Lưu danh sách trạng thái sinh viên vào allowed_status_transitions.txt thành công.
+2025-03-14 17:53:05,219 - INFO - Thoát ứng dụng
+2025-03-14 17:58:14,677 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 17:58:43,161 - INFO - Không xóa danh mục Khoa: 'Khoa Tiếng Pháp' đang được sử dụng.
+2025-03-14 18:00:36,721 - INFO - Xóa danh mục Khoa: 'Khoa Tiếng Nhật'
+2025-03-14 18:01:11,224 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 18:01:11,224 - INFO - Lưu danh sách chương trình đào tạo vào allowed_programs.txt thành công.
+2025-03-14 18:01:11,224 - INFO - Lưu danh sách khoa vào allowed_faculties.txt thành công.
+2025-03-14 18:01:11,224 - INFO - Lưu danh sách trạng thái sinh viên vào allowed_status_transitions.txt thành công.
+2025-03-14 18:01:11,224 - INFO - Thoát ứng dụng
+2025-03-14 18:01:23,100 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 18:01:58,448 - INFO - Xóa danh mục Chương trình đào tạo: 'Trung Cấp'
+2025-03-14 18:24:28,734 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 18:25:57,635 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 18:26:57,876 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 18:26:57,876 - INFO - Lưu danh sách chương trình đào tạo vào allowed_programs.txt thành công.
+2025-03-14 18:26:57,876 - INFO - Lưu danh sách khoa vào allowed_faculties.txt thành công.
+2025-03-14 18:26:57,876 - INFO - Lưu danh sách trạng thái sinh viên vào allowed_status_transitions.txt thành công.
+2025-03-14 18:26:57,876 - INFO - Thoát ứng dụng
+2025-03-14 18:28:30,391 - INFO - Load dữ liệu sinh viên từ file CSV thành công.
+2025-03-14 18:28:38,611 - INFO - Không xóa sinh viên 22127345: đã vượt quá giới hạn 30.0 phút (chênh lệch 621.46 phút).
+2025-03-14 18:28:55,099 - INFO - Xóa sinh viên: MSSV 22127345
+2025-03-14 18:30:32,477 - INFO - Lưu dữ liệu sinh viên vào file CSV thành công.
+2025-03-14 18:30:32,477 - INFO - Lưu danh sách chương trình đào tạo vào allowed_programs.txt thành công.
+2025-03-14 18:30:32,477 - INFO - Lưu danh sách khoa vào allowed_faculties.txt thành công.
+2025-03-14 18:30:32,484 - INFO - Lưu danh sách trạng thái sinh viên vào allowed_status_transitions.txt thành công.
+2025-03-14 18:30:32,484 - INFO - Thoát ứng dụng
