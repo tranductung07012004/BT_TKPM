@@ -31,22 +31,22 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
    - Chọn mục "Thêm sinh viên".
    - Nhập đầy đủ thông tin sinh viên (MSSV, Họ tên, Ngày sinh, Giới tính, v.v.), nếu trường thông tin đó không hợp lệ, sẽ cần nhập lại đến hợp lệ.
    - Sinh viên sẽ được thêm vào danh sách nếu MSSV không bị trùng.
-   - ![Alt text](screenshots/pic1.png)
+   ![Alt text](screenshots/pic1.png)
 2. **Xóa sinh viên**: Xóa thông tin sinh viên dựa trên Mã số sinh viên (MSSV).
    - Chọn mục "Xóa sinh viên".
    - Nhập MSSV của sinh viên cần xóa.
    - Nếu MSSV tồn tại, sinh viên sẽ bị xóa khỏi danh sách.
-   - ![Alt text](screenshots/pic2.png)
+   ![Alt text](screenshots/pic2.png)
 3. **Cập nhật thông tin sinh viên**: Cập nhật thông tin của sinh viên dựa trên MSSV.
    - Chọn mục "Cập nhật thông tin sinh viên".
    - Nhập MSSV của sinh viên cần cập nhật.
    - Nếu sinh viên tồn tại, chọn trường thông tin cần cập nhật và nhập giá trị mới (các giá trị đều được validate).
-   - ![Alt text](screenshots/pic3.png)
+   ![Alt text](screenshots/pic3.png)
 4. **Tìm kiếm sinh viên**: Tìm kiếm sinh viên theo họ tên hoặc MSSV.
    - Chọn mục "Tìm kiếm sinh viên".
    - Chọn phương thức tìm kiếm theo MSSV hoặc Họ tên và nhập từ khóa.
    - Kết quả sẽ được hiển thị ngay trên màn hình.
-   - ![Alt text](screenshots/pic4.png)
+   ![Alt text](screenshots/pic4.png)
 
 **Version v2.0**
 
@@ -59,49 +59,89 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
 - **Khoa (Faculty)**
 - **Tình trạng sinh viên (Student Status)**
 - **Chương trình đào tạo (Program)**
-
+![Alt text](screenshots/pic16.png)
 ✅ **Thêm chức năng tìm kiếm:**
 
 - **Tìm theo khoa**
+   - Chọn mục "Tìm kiếm theo Khoa".
+   - Chọn khoa từ danh mục có sẵn.
+   - Chương trình hiển thị danh sách sinh viên thuộc khoa được chọn.
+   ![Alt text](screenshots/pic5.png)
 - **Tìm theo khoa + tên sinh viên**
-
+   - Chọn mục "Tìm kiếm theo Khoa và Tên sinh viên".
+   - Chọn khoa từ danh mục và nhập tên sinh viên cần tìm.
+   - Hiển thị danh sách sinh viên phù hợp với tiêu chí tìm kiếm.
+   ![Alt text](screenshots/pic6.png)
 ✅ **Hỗ trợ import/export dữ liệu:**
 
 - **CSV, JSON, XML, Excel** (**chọn ít nhất 2**)
 => **Import** dùng **CSV + JSON**, **Export** dùng **JSON**. Lí do **Export** chỉ có JSON là vì khi lưu trữ dữ liệu chương trình đã dùng file **CSV** rồi.
+   - Chọn mục "Import dữ liệu".
+   - Chọn định dạng file cần import (CSV hoặc JSON) và nhập đường dẫn file.
+   - Với mỗi sinh viên được import, chương trình sẽ kiểm tra MSSV. Nếu MSSV đã tồn tại trong danh sách hiện có, sinh viên đó sẽ không được thêm vào.
+   - Kết quả import sẽ thông báo số lượng sinh viên được thêm và số lượng bị bỏ qua.
+   ![Alt text](screenshots/pic8.png)
+   - Chọn mục "Export dữ liệu ra JSON".
+   - Nhập đường dẫn file JSON để lưu dữ liệu.
+   - Chương trình xuất toàn bộ danh sách sinh viên hiện có ra file JSON.
+   ![Alt text](screenshots/pic9.png)
+   ![Alt text](screenshots/pic10.png)
 
 ✅ **Thêm logging mechanism:**
 
 - Ghi lại logs để **troubleshooting production issues & audit purposes**.
+    - Mọi hành động chính (thêm, xóa, cập nhật, import, export, hiển thị version) được ghi lại vào file `app.log` nhằm phục vụ troubleshooting và audit.
+    - File `app.log` được tạo trong cùng thư mục chứa source code.  
+    ![Alt text](screenshots/pic12.png)
 
 ✅ **Thêm chức năng show version và ngày build ứng dụng**
-
+    - Chọn mục "Hiển thị version và ngày build".
+    - Thông tin phiên bản và ngày build của ứng dụng sẽ được hiển thị trên màn hình.
+    ![Alt text](screenshots/pic11.png)
 **Version v3.0:** 
-01. MSSV phải là duy nhất  
+1.  MSSV phải là duy nhất  
    - Khi thêm hoặc cập nhật sinh viên, không được trùng MSSV với sinh viên khác.  
-
-02. Email phải thuộc một tên miền nhất định và có thể cấu hình động (configurable) 
-   - Ví dụ: Chỉ chấp nhận email có đuôi `@student.university.edu.vn`.  
-
-03. Số điện thoại phải có định dạng hợp lệ theo quốc gia (configurable) 
-   - Ví dụ: Việt Nam (`+84` hoặc `0[3|5|7|8|9]xxxxxxxx`).  		 
-
-04. Tình trạng sinh viên chỉ có thể thay đổi theo một số quy tắc (configurable)
+![Alt text](screenshots/pic15.png)
+![Alt text](screenshots/pic18.png)
+2.  Email phải thuộc một tên miền nhất định và có thể cấu hình động (configurable) 
+   - Ví dụ: Chỉ chấp nhận email có đuôi `@student.university.edu.vn`.
+Khi nhập không đúng định dạng mail:  
+![Alt text](screenshots/pic19.png)
+Những định dạng mail cho phép (có thể sửa được):
+![Alt text](screenshots/pic20.png)
+3.  Số điện thoại phải có định dạng hợp lệ theo quốc gia (configurable) 
+   - Ví dụ: Việt Nam (`+84` hoặc `0[3|5|7|8|9]xxxxxxxx`).  	
+Khi nhập số điện thoại không đúng định dạng:	 
+![Alt text](screenshots/pic21.png)
+Những định dạng số điện thoại (regex) cho phép (có thể sửa được):
+![Alt text](screenshots/pic22.png)
+4.  Tình trạng sinh viên chỉ có thể thay đổi theo một số quy tắc (configurable)
    - Ví dụ:  
      - `"Đang học"` → `"Bảo lưu"`, `"Tốt nghiệp"`, `"Đình chỉ"` (hợp lệ).  
      - `"Đã tốt nghiệp"` không thể quay lại `"Đang học"`.
-   
-**Version v4.0:**
-06. Chỉ được phép xóa sinh viên có creation date/time trong khoảng thời gian nhất định. Ví dụ: 30 phút (configurable) 
+Khi chọn thay đổi tình trạng không cho phép:	 
+![Alt text](screenshots/pic24.png)
+Thông tin các tình trạng và các quy tắc trong file configurable:
+![Alt text](screenshots/pic23.png)
 
+**Version v4.0:**
+
+06. Chỉ được phép xóa sinh viên có creation date/time trong khoảng thời gian nhất định. Ví dụ: 30 phút (configurable) 
+![Alt text](screenshots/pic25.png)
+![Alt text](screenshots/pic26.png)
 07. Cho phép bật / tắt việc áp dụng các quy định 
 
 08. Các màn hình cần hiện logo hoặc tên Trường (ít nhất một) => Tên trường
+![Alt text](screenshots/pic27.png)
 
 09. Cho phép xóa khoa, xóa tình trạng sinh viên, xóa chương trình đào tạo nếu không có ràng buộc về dữ liệu 
 
 10. Xuất giấy xác nhận tình trạng sinh viên ra **HTML/MD/PDF/DOCX** (ít nhất 2 định dạng) => là **HTML** và **MD**
- 
+![Alt text](screenshots/pic28.png)
+File HTML
+![Alt text](screenshots/pic29.png)
+File MarkDown
+![Alt text](screenshots/pic30.png)
 ## Cấu Trúc Source Code
 - **validators.py**: Chứa các hàm kiểm tra tính hợp lệ của dữ liệu (email, số điện thoại, ngày sinh, v.v.).
 - **student_manager.py**: Chứa toàn bộ logic của chương trình, bao gồm:
@@ -137,79 +177,3 @@ Chương trình sử dụng python và giao diện console. **Đầy đủ các 
      python app.py
      ```
    - Menu chính của chương trình sẽ được hiển thị.
-
-## Hướng Dẫn Sử Dụng Các Chức Năng
-
-1. **Thêm Sinh Viên**
-   - Chọn mục "Thêm sinh viên".
-   - Nhập đầy đủ thông tin sinh viên (MSSV, Họ tên, Ngày sinh, Giới tính, v.v.), nếu trường thông tin đó không hợp lệ, sẽ cần nhập lại đến hợp lệ.
-   - Sinh viên sẽ được thêm vào danh sách nếu MSSV không bị trùng.
-   - ![Alt text](screenshots/pic1.png)
-
-2. **Xóa Sinh Viên**
-   - Chọn mục "Xóa sinh viên".
-   - Nhập MSSV của sinh viên cần xóa.
-   - Nếu MSSV tồn tại, sinh viên sẽ bị xóa khỏi danh sách.
-   - ![Alt text](screenshots/pic2.png)
-
-3. **Cập Nhật Thông Tin Sinh Viên**
-   - Chọn mục "Cập nhật thông tin sinh viên".
-   - Nhập MSSV của sinh viên cần cập nhật.
-   - Nếu sinh viên tồn tại, chọn trường thông tin cần cập nhật và nhập giá trị mới (các giá trị đều được validate).
-   - ![Alt text](screenshots/pic3.png)
-
-4. **Tìm Kiếm Sinh Viên (theo MSSV hoặc Họ tên)**
-   - Chọn mục "Tìm kiếm sinh viên".
-   - Chọn phương thức tìm kiếm theo MSSV hoặc Họ tên và nhập từ khóa.
-   - Kết quả sẽ được hiển thị ngay trên màn hình.
-   - ![Alt text](screenshots/pic4.png)
-
-5. **Tìm Kiếm Theo Khoa**
-   - Chọn mục "Tìm kiếm theo Khoa".
-   - Chọn khoa từ danh mục có sẵn.
-   - Chương trình hiển thị danh sách sinh viên thuộc khoa được chọn.
-   - ![Alt text](screenshots/pic5.png)
-
-6. **Tìm Kiếm Theo Khoa và Tên Sinh Viên**
-   - Chọn mục "Tìm kiếm theo Khoa và Tên sinh viên".
-   - Chọn khoa từ danh mục và nhập tên sinh viên cần tìm.
-   - Hiển thị danh sách sinh viên phù hợp với tiêu chí tìm kiếm.
-   - ![Alt text](screenshots/pic6.png)
-
-7. **Quản Lý Danh Mục (Khoa, Tình trạng sinh viên, Chương trình đào tạo)**
-   - Chọn mục "Quản lý danh mục".
-   - Trong menu quản lý, bạn có thể:
-     - **Đổi tên** mục hiện có.
-     - **Thêm mới** mục vào danh mục.
-   - Các danh mục này được sử dụng trong các chức năng khác của chương trình.
-   - ![Alt text](screenshots/pic7.png)
-
-8. **Import Dữ Liệu (CSV/JSON)**
-   - Chọn mục "Import dữ liệu".
-   - Chọn định dạng file cần import (CSV hoặc JSON) và nhập đường dẫn file.
-   - Với mỗi sinh viên được import, chương trình sẽ kiểm tra MSSV. Nếu MSSV đã tồn tại trong danh sách hiện có, sinh viên đó sẽ không được thêm vào.
-   - Kết quả import sẽ thông báo số lượng sinh viên được thêm và số lượng bị bỏ qua.
-   - ![Alt text](screenshots/pic8.png)
-
-9. **Export Dữ Liệu Ra JSON**
-   - Chọn mục "Export dữ liệu ra JSON".
-   - Nhập đường dẫn file JSON để lưu dữ liệu.
-   - Chương trình xuất toàn bộ danh sách sinh viên hiện có ra file JSON.
-   - ![Alt text](screenshots/pic9.png)
-   - ![Alt text](screenshots/pic10.png)
-
-10. **Hiển Thị Phiên Bản và Ngày Build**
-    - Chọn mục "Hiển thị version và ngày build".
-    - Thông tin phiên bản và ngày build của ứng dụng sẽ được hiển thị trên màn hình.
-    - ![Alt text](screenshots/pic11.png)
-
-11. **Logging**
-    - Mọi hành động chính (thêm, xóa, cập nhật, import, export, hiển thị version) được ghi lại vào file `app.log` nhằm phục vụ troubleshooting và audit.
-    - File `app.log` được tạo trong cùng thư mục chứa source code.  
-    - ![Alt text](screenshots/pic12.png)
-12. **Thoát Chương Trình**
-    - Chọn mục "Thoát".
-    - Trước khi thoát, chương trình sẽ lưu toàn bộ dữ liệu sinh viên từ biến global vào file `students.csv`.
-    - ![Alt text](screenshots/pic13.png)
----
-

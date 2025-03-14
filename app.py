@@ -6,7 +6,7 @@ from datetime import datetime
 from validators import validate_email, validate_phone, validate_date, validate_index, validate_non_empty, validate_gender, validator_transition_states
 import subprocess
 from datetime import timedelta 
-
+school_name = "Trường Đại Học Bách Khoa"
 logging.basicConfig(level=logging.INFO,
                     filename="app.log",
                     filemode="a",
@@ -166,6 +166,7 @@ def input_index(prompt, options):
 
 def add_student():
     global students
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Thêm sinh viên mới ===")
     
     while True:
@@ -227,6 +228,8 @@ def add_student():
 
 def delete_student():
     global students
+    
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Xóa sinh viên ===")
     mssv = input("Nhập MSSV của sinh viên cần xóa: ").strip()
     found = False
@@ -259,6 +262,8 @@ def delete_student():
 
 def update_student():
     global students
+
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Cập nhật thông tin sinh viên ===")
     mssv = input("Nhập MSSV của sinh viên cần cập nhật: ").strip()
     student = None
@@ -343,6 +348,7 @@ def update_student():
 
 def search_student():
     global students
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Tìm kiếm sinh viên ===")
     print("Tìm kiếm theo:")
     print("1: MSSV")
@@ -368,6 +374,7 @@ def search_student():
 
 def search_by_faculty():
     global students
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Tìm kiếm theo Khoa ===")
     faculty = input_index("Chọn khoa cần tìm:", FACULTIES)
     results = [s for s in students if s['khoa'] == faculty]
@@ -380,6 +387,7 @@ def search_by_faculty():
 
 def search_by_faculty_and_name():
     global students
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Tìm kiếm theo Khoa và Tên sinh viên ===")
     faculty = input_index("Chọn khoa cần tìm:", FACULTIES)
     name = input("Nhập tên sinh viên cần tìm: ").strip().lower()
@@ -393,6 +401,7 @@ def search_by_faculty_and_name():
 
 def manage_categories():
     while True:
+        print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
         print("\n=== Quản lý danh mục ===")
         print("1: Quản lý Khoa (Faculty)")
         print("2: Quản lý Tình trạng sinh viên (Student Status)")
@@ -412,6 +421,7 @@ def manage_categories():
 
 def manage_list(name, category_list):
     while True:
+        print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
         print(f"\n--- Quản lý {name} ---")
         print("Danh sách hiện tại:")
         for idx, item in enumerate(category_list):
@@ -448,6 +458,7 @@ def manage_list(name, category_list):
 
 def import_data():
     global students
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Import Dữ liệu ===")
     print("Chọn định dạng file để import:")
     print("1: CSV")
@@ -509,6 +520,7 @@ def import_data():
 
 def export_data_json():
     global students
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Export Dữ liệu ra JSON ===")
     file_path = input("Nhập đường dẫn file JSON để lưu (ví dụ: export.json): ").strip()
     try:
@@ -541,6 +553,7 @@ def read_build_info():
         return "No build info available"
     
 def show_version():
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Phiên bản và Ngày Build ===")
     version = get_git_version()
     build_date = read_build_info()
@@ -551,10 +564,8 @@ def show_version():
 def export_status_confirmation():
     """
     Xuất giấy xác nhận tình trạng sinh viên ra HTML hoặc Markdown.
-    Nội dung bao gồm phần header chứa thông tin trường (tên, địa chỉ, điện thoại, email)
-    và phần nội dung xác nhận với các thông tin sinh viên, mục đích xác nhận (chọn từ 4 mục)
-    và thời gian cấp giấy (ngày hiện tại và hiệu lực đến 30 ngày sau).
     """
+    print(f"Chào mừng đến với hệ thống quản lý sinh viên - {school_name}")
     print("\n=== Xuất giấy xác nhận tình trạng sinh viên ===")
     mssv = input("Nhập MSSV của sinh viên cần xuất giấy xác nhận: ").strip()
     student = None
@@ -566,7 +577,6 @@ def export_status_confirmation():
         print("Không tìm thấy sinh viên với MSSV đã nhập.")
         return
 
-    # Yêu cầu chọn mục đích xác nhận
     print("Chọn mục đích xác nhận:")
     print("0: Xác nhận đang học để vay vốn ngân hàng")
     print("1: Xác nhận làm thủ tục tạm hoãn nghĩa vụ quân sự")
@@ -585,18 +595,14 @@ def export_status_confirmation():
         print("Lựa chọn không hợp lệ, sử dụng mặc định: Xác nhận đang học để vay vốn ngân hàng")
         purpose = "Xác nhận đang học để vay vốn ngân hàng"
 
-    # Tính toán ngày cấp và hiệu lực (30 ngày kể từ hôm nay)
     issue_date = datetime.now().strftime('%d/%m/%Y')
     effective_date = (datetime.now() + timedelta(days=30)).strftime('%d/%m/%Y')
 
-    # Đọc thông tin trường từ file cấu hình
     config = load_overall_config()
-    school_name = config.get('school_name', 'Trường Đại Học Demo')
     school_address = config.get('school_address', '123 Đường ABC, Quận XYZ, TP. HCM')
     school_phone = config.get('school_phone', '0123456789')
     school_email = config.get('school_email', 'contact@demo.edu.vn')
 
-    # Chuẩn bị nội dung header và nội dung xác nhận chung
     header_text = (
         f"TRƯỜNG ĐẠI HỌC {school_name}\n"
         f"PHÒNG ĐÀO TẠO\n"
@@ -640,7 +646,6 @@ def export_status_confirmation():
 
     try:
         if choice == '1':
-            # Xuất ra HTML với style cải tiến
             html_content = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -740,6 +745,7 @@ def main_menu():
     Khi khởi động, load dữ liệu vào biến toàn cục.
     Khi thoát, lưu dữ liệu vào file CSV.
     """
+    global school_name
     save_build_time()
     load_students()
     config = load_overall_config()
